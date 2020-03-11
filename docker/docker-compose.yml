@@ -32,6 +32,14 @@ services:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
     restart: always
 
+  debug:
+    image: asaushkin/kafka-streams-provision
+    build:
+      context: ./debug
+      dockerfile: Dockerfile
+    command:
+      bash -x /provision.sh
+
   connect:
     image: confluentinc/kafka-connect-datagen:0.2.0
     build:
@@ -44,6 +52,8 @@ services:
     depends_on:
       - zookeeper
       - kafka
+    volumes:
+    - ./kafka-connect/avro:/avro
     environment:
       CONNECT_BOOTSTRAP_SERVERS: kafka:9092
       CONNECT_REST_PORT: 8083
@@ -64,3 +74,15 @@ services:
       CONNECT_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
       CONNECT_LOG4J_LOGGERS: "org.apache.kafka.connect.runtime.rest=WARN,org.reflections=ERROR"
+
+  ksql-server:
+    image: confluentinc/cp-ksql-server:5.3.2
+    depends_on:
+    - connect
+    ports:
+    - 127.0.0.1:8088:8088
+    environment:
+      KSQL_BOOTSTRAP_SERVERS: kafka:9092
+      KSQL_LISTENERS: http://0.0.0.0:8088/
+      KSQL_KSQL_SERVICE_ID: ksql_service_1_
+      KSQL_KSQL_SCHEMA_REGISTRY_URL: http://schema-registry:8081
