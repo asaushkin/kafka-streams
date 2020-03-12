@@ -1,8 +1,8 @@
 # How to add a new datagen source connector
 
-1. Create a new datagen file and put it inside `docker/kafka-connect/avro/something_in_avro.avro`
+1. Create a new datagen file and put it inside `src/main/avro`
 
-   For example see `docker/kafka-connect/avro/impressions.avro`
+   For example see `src/main/avro/impressions.avsc`
    
 2. Create connector. See example - `docker/debug/connectors/impressions.json`
 

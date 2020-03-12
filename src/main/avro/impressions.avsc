@@ -1,6 +1,6 @@
 {
-        "namespace": "streams",
-        "name": "impressions",
+        "namespace": "schemas",
+        "name": "Impression",
         "type": "record",
         "fields": [
                 {"name": "impresssiontime", "type": {

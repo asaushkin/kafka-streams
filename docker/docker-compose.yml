@@ -62,7 +62,7 @@ services:
     container_name: ks-kafka-connect
     restart: always
     volumes:
-    - ./kafka-connect/avro:/avro
+    - ../src/main/avro:/avro
     depends_on:
       - zookeeper
       - kafka

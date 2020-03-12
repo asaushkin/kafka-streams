@@ -1,7 +1,7 @@
 {
   "connector.class": "io.confluent.kafka.connect.datagen.DatagenConnector",
   "kafka.topic": "impressions",
-  "schema.filename": "/avro/impressions.avro",
+  "schema.filename": "/avro/impressions.avsc",
   "schema.keyfield": "userid",
   "key.converter": "org.apache.kafka.connect.storage.StringConverter",
   "value.converter": "org.apache.kafka.connect.json.JsonConverter",
