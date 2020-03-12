@@ -22,4 +22,8 @@ for i in /connectors/*.json; do
     ${kafka_connect}/connectors/${connector}/config | jq .
 done
 
+for i in /ksql/*.ksql; do
+  cat $i | ksql http://ksql-server:8088
+done
+
 tail -f /dev/null

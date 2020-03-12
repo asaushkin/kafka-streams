@@ -1,6 +1,6 @@
 
 object Main {
   def main(args: Array[String]): Unit = {
-    print("zzzzz")
+    print("Scala is out")
   }
 }

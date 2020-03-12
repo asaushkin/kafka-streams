@@ -1,0 +1,26 @@
+DROP TABLE users;
+CREATE TABLE users (registertime bigint, userid varchar, regionid varchar,
+    gender varchar)
+with (kafka_topic='users',value_format='JSON');
+
+DROP TABLE users_extended;
+CREATE TABLE users_extended (
+    registertime BIGINT,
+    gender VARCHAR,
+    regionid VARCHAR,
+    userid VARCHAR,
+    interests ARRAY<STRING>,
+    contactInfo MAP<STRING, STRING>)
+WITH (
+    kafka_topic='users_extended',
+    value_format='JSON',
+    key = 'userid');
+
+DROP STREAM pageviews;
+CREATE STREAM pageviews (
+    viewtime bigint,
+    userid varchar,
+    pageid varchar)
+WITH (
+    kafka_topic='pageviews',
+    value_format='JSON');
