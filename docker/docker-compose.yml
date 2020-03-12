@@ -91,8 +91,6 @@ services:
   ksql-server:
     container_name: ks-ksql-server
     image: confluentinc/cp-ksql-server:5.4.1
-    ports:
-      - 8088:8088
     depends_on:
       - kafka
       - schema-registry
