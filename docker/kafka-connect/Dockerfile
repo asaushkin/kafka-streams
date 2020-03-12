@@ -13,15 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG CP_VERSION=5.3.2
-ARG BASE_PREFIX=confluentinc
-ARG CONNECT_IMAGE=cp-kafka-connect
-ARG KAFKA_CONNECT_DATAGEN_VERSION=0.3.1
+FROM confluentinc/cp-server-connect:5.4.1
 
-FROM $BASE_PREFIX/$CONNECT_IMAGE:$CP_VERSION
-
-ENV CONNECT_PLUGIN_PATH="/usr/share/java,/usr/share/confluent-hub-components"
-
-ARG KAFKA_CONNECT_DATAGEN_VERSION
-
-RUN confluent-hub install --no-prompt confluentinc/kafka-connect-datagen:$KAFKA_CONNECT_DATAGEN_VERSION
+RUN confluent-hub install --no-prompt confluentinc/kafka-connect-datagen:0.3.1
