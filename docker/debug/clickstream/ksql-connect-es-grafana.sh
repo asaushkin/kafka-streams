@@ -48,7 +48,7 @@ curl -s -X "POST" "http://$CONNECT_HOST:8083/connectors/" \
     "topic.index.map": "'$TABLE_NAME':'$table_name'",
     "connection.url": "http://'$ELASTIC_HOST':9200",
     "transforms": "FilterNulls",
-    "transforms.FilterNulls.type": "io.confluent.transforms.NullFilter"
+    "transforms.FilterNulls.type": "transforms.NullFilter"
   }
 }' >>/tmp/log.txt 2>&1
 

@@ -46,3 +46,4 @@ COPY .bashrc /etc/skel/.bashrc.local
 COPY provision.sh /provision.sh
 COPY connectors /connectors
 COPY ksql /ksql
+COPY clickstream /scripts

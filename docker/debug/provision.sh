@@ -26,4 +26,9 @@ for i in /ksql/*.ksql; do
   cat $i | ksql http://ksql-server:8088
 done
 
+/scripts/elastic-dynamic-template.sh
+/scripts/ksql-tables-to-grafana.sh
+/scripts/clickstream-analysis-dashboard.sh
+#/scripts/malicious-users-dashboard.sh
+
 tail -f /dev/null

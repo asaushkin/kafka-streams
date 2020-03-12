@@ -53,6 +53,10 @@ services:
       dockerfile: Dockerfile
     command:
       bash -x /provision.sh
+    environment:
+      ELASTIC_HOST: elasticsearch
+      CONNECT_HOST: kafka-connect
+      GRAFANA_HOST: grafana
 
   kafka-connect:
     image: asaushkin/kafka-connect:0.1.0
@@ -122,3 +126,14 @@ services:
       - 3000:3000
     environment:
       GRAFANA_HOST: grafana
+
+  kibana:
+    container_name: ks-kibana
+    image: docker.elastic.co/kibana/kibana:6.3.0
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5601:5601
+    environment:
+      xpack.security.enabled: "false"
+      discovery.type: "single-node"
