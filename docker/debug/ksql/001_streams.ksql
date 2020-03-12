@@ -1,9 +1,11 @@
 DROP TABLE users;
+DROP TABLE users_extended;
+DROP STREAM pageviews;
+
 CREATE TABLE users (registertime bigint, userid varchar, regionid varchar,
     gender varchar)
 with (kafka_topic='users',value_format='JSON');
 
-DROP TABLE users_extended;
 CREATE TABLE users_extended (
     registertime BIGINT,
     gender VARCHAR,
@@ -16,7 +18,6 @@ WITH (
     value_format='JSON',
     key = 'userid');
 
-DROP STREAM pageviews;
 CREATE STREAM pageviews (
     viewtime bigint,
     userid varchar,

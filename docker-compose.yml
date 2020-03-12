@@ -49,7 +49,7 @@ services:
     image: asaushkin/kafka-streams-provision
     container_name: ks-debug
     build:
-      context: ./debug
+      context: ./docker/debug
       dockerfile: Dockerfile
     command:
       bash -x /provision.sh
@@ -57,12 +57,13 @@ services:
   kafka-connect:
     image: asaushkin/kafka-connect:0.1.0
     build:
-      context: ./kafka-connect
+      context: ./docker/kafka-connect
       dockerfile: Dockerfile
     container_name: ks-kafka-connect
     restart: always
     volumes:
-    - ../src/main/avro:/avro
+    - ./src/main/avro:/avro
+    - ./target:/target
     depends_on:
       - zookeeper
       - kafka
@@ -86,7 +87,10 @@ services:
       CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: "1"
       CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: "1"
       CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: "1"
-      CONNECT_PLUGIN_PATH: '/usr/share/java,/usr/share/confluent-hub-components'
+      CONNECT_PLUGIN_PATH: '/usr/share/java,/usr/share/confluent-hub-components,/target'
+      ELASTIC_HOST: elasticsearch
+      CONNECT_HOST: kafka-connect
+      GRAFANA_HOST: grafana
 
   ksql-server:
     container_name: ks-ksql-server
@@ -100,3 +104,21 @@ services:
       KSQL_LISTENERS: http://0.0.0.0:8088
       KSQL_KSQL_SCHEMA_REGISTRY_URL: http://schema-registry:8081
       KSQL_KSQL_CONNECT_URL: "http://kafka-connect:8083"
+
+  elasticsearch:
+    container_name: ks-elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.0
+    ports:
+      - 9200:9200
+    environment:
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+      ELASTIC_HOST: elasticsearch
+
+  grafana:
+    container_name: ks-grafana
+    image: grafana/grafana:5.2.4
+    ports:
+      - 3000:3000
+    environment:
+      GRAFANA_HOST: grafana
