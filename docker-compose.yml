@@ -2,14 +2,14 @@ version: "3.7"
 
 services:
   zookeeper:
-    container_name: ks-zookeeper
+    container_name: ${COMPOSE_PROJECT_NAME}-zookeeper
     image: confluentinc/cp-zookeeper:5.4.1
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
 
   kafka:
-    container_name: ks-kafka
+    container_name: ${COMPOSE_PROJECT_NAME}-kafka
     image: confluentinc/cp-server:5.4.1
     depends_on:
       - zookeeper
@@ -36,7 +36,7 @@ services:
       CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
 
   schema-registry:
-    container_name: ks-schema-registry
+    container_name: ${COMPOSE_PROJECT_NAME}-schema-registry
     image: confluentinc/cp-schema-registry:5.4.1
     depends_on:
       - zookeeper
@@ -47,7 +47,7 @@ services:
 
   debug:
     image: asaushkin/kafka-streams-provision
-    container_name: ks-debug
+    container_name: ${COMPOSE_PROJECT_NAME}-debug
     build:
       context: ./docker/debug
       dockerfile: Dockerfile
@@ -63,10 +63,10 @@ services:
     build:
       context: ./docker/kafka-connect
       dockerfile: Dockerfile
-    container_name: ks-kafka-connect
+    container_name: ${COMPOSE_PROJECT_NAME}-kafka-connect
     restart: always
     volumes:
-    - ./src/main/avro:/avro
+    - ./src/main/resources/avro:/avro
     - ./target:/target
     depends_on:
       - zookeeper
@@ -97,7 +97,7 @@ services:
       GRAFANA_HOST: grafana
 
   ksql-server:
-    container_name: ks-ksql-server
+    container_name: ${COMPOSE_PROJECT_NAME}-ksql-server
     image: confluentinc/cp-ksql-server:5.4.1
     depends_on:
       - kafka
@@ -109,31 +109,31 @@ services:
       KSQL_KSQL_SCHEMA_REGISTRY_URL: http://schema-registry:8081
       KSQL_KSQL_CONNECT_URL: "http://kafka-connect:8083"
 
-  elasticsearch:
-    container_name: ks-elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.0
-    ports:
-      - 9200:9200
-    environment:
-      xpack.security.enabled: "false"
-      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
-      ELASTIC_HOST: elasticsearch
-
-  grafana:
-    container_name: ks-grafana
-    image: grafana/grafana:5.2.4
-    ports:
-      - 3000:3000
-    environment:
-      GRAFANA_HOST: grafana
-
-  kibana:
-    container_name: ks-kibana
-    image: docker.elastic.co/kibana/kibana:6.3.0
-    depends_on:
-      - elasticsearch
-    ports:
-      - 5601:5601
-    environment:
-      xpack.security.enabled: "false"
-      discovery.type: "single-node"
+#  elasticsearch:
+#    container_name: ${COMPOSE_PROJECT_NAME}-elasticsearch
+#    image: docker.elastic.co/elasticsearch/elasticsearch:6.3.0
+#    ports:
+#      - 9200:9200
+#    environment:
+#      xpack.security.enabled: "false"
+#      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+#      ELASTIC_HOST: elasticsearch
+#
+#  grafana:
+#    container_name: ${COMPOSE_PROJECT_NAME}-grafana
+#    image: grafana/grafana:5.2.4
+#    ports:
+#      - 3000:3000
+#    environment:
+#      GRAFANA_HOST: grafana
+#
+#  kibana:
+#    container_name: ${COMPOSE_PROJECT_NAME}-kibana
+#    image: docker.elastic.co/kibana/kibana:6.3.0
+#    depends_on:
+#      - elasticsearch
+#    ports:
+#      - 5601:5601
+#    environment:
+#      xpack.security.enabled: "false"
+#      discovery.type: "single-node"
