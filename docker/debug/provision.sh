@@ -29,6 +29,6 @@ done
 /scripts/elastic-dynamic-template.sh
 /scripts/ksql-tables-to-grafana.sh
 /scripts/clickstream-analysis-dashboard.sh
-#/scripts/malicious-users-dashboard.sh
+/scripts/malicious-users-dashboard.sh
 
 tail -f /dev/null
