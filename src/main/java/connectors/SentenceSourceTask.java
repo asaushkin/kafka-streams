@@ -41,12 +41,12 @@ public class SentenceSourceTask extends SourceTask {
         topic = props.get(TOPIC);
 
         log.info("Starting sentence generator task");
-        log.info("nouns: {}", props.get(NOUNS));
-        log.info("verbs: {}", props.get(VERBS));
-        log.info("modifiers: {}", props.get(MODIFIERS));
-        log.info("sleep-ms: {}", props.get(SLEEP_MS));
-        log.info("batch-size: {}", props.get(BATCH_SIZE));
-        log.info("topic: {}", props.get(TOPIC));
+        log.info("{}: {}", NOUNS, props.get(NOUNS));
+        log.info("{}: {}", VERBS, props.get(VERBS));
+        log.info("{}: {}", MODIFIERS, props.get(MODIFIERS));
+        log.info("{}: {}", SLEEP_MS, props.get(SLEEP_MS));
+        log.info("{}: {}", BATCH_SIZE, props.get(BATCH_SIZE));
+        log.info("{}: {}", TOPIC, props.get(TOPIC));
     }
 
     @Override

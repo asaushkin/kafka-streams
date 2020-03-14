@@ -4,5 +4,11 @@
   "key.converter": "org.apache.kafka.connect.storage.StringConverter",
   "value.converter": "org.apache.kafka.connect.storage.StringConverter",
   "value.converter.schemas.enable": "false",
-  "tasks.max": "1"
+  "tasks.max": "1",
+  "sentence.nouns": "lamp,table,socks,photo",
+  "sentence.verbs": "take,give,fetch,pull,push",
+  "sentence.modifiers": "",
+  "sentence.batchSize": "1",
+  "sentence.sleepMs": "1000",
+  "sentence.topic": "sentences"
 }

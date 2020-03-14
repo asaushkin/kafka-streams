@@ -26,12 +26,12 @@ public class SentenceSourceConnector extends SourceConnector {
         return SentenceSourceTask.class;
     }
 
-    static final String NOUNS = "nouns";
-    static final String VERBS = "verbs";
-    static final String MODIFIERS = "modifiers";
-    static final String BATCH_SIZE = "batch-size";
-    static final String SLEEP_MS = "sleep-ms";
-    static final String TOPIC = "topic";
+    static final String NOUNS = "sentence.nouns";
+    static final String VERBS = "sentence.verbs";
+    static final String MODIFIERS = "sentence.modifiers";
+    static final String BATCH_SIZE = "sentence.batchSize";
+    static final String SLEEP_MS = "sentence.sleepMs";
+    static final String TOPIC = "sentence.topic";
 
     String nouns;
     String verbs;
