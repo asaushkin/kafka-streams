@@ -1,0 +1,8 @@
+{
+  "connector.class": "connectors.SentenceSourceConnector",
+  "kafka.topic": "sentences",
+  "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+  "value.converter": "org.apache.kafka.connect.storage.StringConverter",
+  "value.converter.schemas.enable": "false",
+  "tasks.max": "1"
+}

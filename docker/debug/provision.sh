@@ -26,4 +26,6 @@ for i in /ksql/*.ksql; do
   cat $i | ksql http://ksql-server:8088
 done
 
+create_topic streams-plaintext-input
+
 tail -f /dev/null
