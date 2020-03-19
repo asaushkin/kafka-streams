@@ -6,6 +6,7 @@ import org.apache.kafka.connect.source.SourceRecord;
 import org.apache.kafka.connect.source.SourceTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import utils.PrettyPrint;
 import utils.SplitWords;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import static connectors.SentenceSourceConnector.*;
 public class SentenceSourceTask extends SourceTask {
 
     private static final Logger log = LoggerFactory.getLogger(SentenceSourceTask.class);
+    private int iterations;
 
     @Override
     public String version() {
@@ -41,12 +43,7 @@ public class SentenceSourceTask extends SourceTask {
         topic = props.get(TOPIC);
 
         log.info("Starting sentence generator task");
-        log.info("{}: {}", NOUNS, props.get(NOUNS));
-        log.info("{}: {}", VERBS, props.get(VERBS));
-        log.info("{}: {}", MODIFIERS, props.get(MODIFIERS));
-        log.info("{}: {}", SLEEP_MS, props.get(SLEEP_MS));
-        log.info("{}: {}", BATCH_SIZE, props.get(BATCH_SIZE));
-        log.info("{}: {}", TOPIC, props.get(TOPIC));
+        log.info(PrettyPrint.hash(props));
     }
 
     @Override
@@ -54,10 +51,13 @@ public class SentenceSourceTask extends SourceTask {
         ArrayList<SourceRecord> records = new ArrayList<>();
 
         for (int i = 0; i < batchSize; i++) {
-            Map<String, String> sourcePartition = Collections.singletonMap("sentence", "");
-            Map<String, String> sourceOffset = Collections.singletonMap("position", "");
-
             String sentence = sentenceGenerator.nextSentence();
+
+            Map<String, String> sourcePartition =
+                    Collections.singletonMap("sentence", "origin");
+            Map<String, String> sourceOffset =
+                    Collections.singletonMap("position", String.valueOf(iterations++));
+
             records.add(new SourceRecord(sourcePartition, sourceOffset, topic,
                     null,
                     Schema.INT32_SCHEMA, sentence.hashCode(),
@@ -69,5 +69,6 @@ public class SentenceSourceTask extends SourceTask {
 
     @Override
     public void stop() {
+        log.info("task is stopping");
     }
 }

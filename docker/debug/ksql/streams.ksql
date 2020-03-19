@@ -1,4 +1,4 @@
-DROP TABLE impressions;
+DROP STREAM impressions;
 
 CREATE STREAM impressions (
     viewtime BIGINT,

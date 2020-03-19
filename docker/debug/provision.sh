@@ -26,6 +26,19 @@ for i in /ksql/*.ksql; do
   cat $i | ksql http://ksql-server:8088
 done
 
-create_topic streams-plaintext-input
+kafka-topics --bootstrap-server $bootstrap_server --create \
+  --topic colours-input --partitions 1 --replication-factor 1
+
+kafka-topics --bootstrap-server $bootstrap_server --create \
+  --topic colours-intermediate --partitions 1 --replication-factor 1 \
+  --config cleanup.policy=compact
+#  --config min.cleanable.dirty.ratio=0.005 \
+#  --config segment.ms=1000
+
+kafka-topics --bootstrap-server $bootstrap_server --create \
+  --topic colours-output --partitions 1 --replication-factor 1 \
+  --config cleanup.policy=compact
+#  --config min.cleanable.dirty.ratio=0.005 \
+#  --config segment.ms=1000
 
 tail -f /dev/null
